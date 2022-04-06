@@ -1,17 +1,17 @@
 package javamon;
 public class Move {
     private String name;
-    private int type;   // 0 = normal
-                        // 1 = grass
-                        // 2 = fire
-                        // 3 = water
-                        // 4 = electric
-                        // 5 = poison
-                        // 6 = flying
+    private int type;   // 1 = normal
+                        // 2 = grass
+                        // 3 = fire
+                        // 4 = water
+                        // 5 = electric
+                        // 6 = poison
+                        // 7 = flying
     private int power;
     private int pp;     // power points - each usage spends 1 pp
-    // non-obligatory constructor method
-    public void defineMove(String name, int type, int power, int pp) {
+    // constructor method
+    public Move(String name, int type, int power, int pp) {
         this.name = name;
         this.type = type;
         this.power = power;

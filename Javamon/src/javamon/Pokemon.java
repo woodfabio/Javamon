@@ -1,11 +1,11 @@
 package javamon;
 import java.util.Random;
-public class Pokemon {
+public abstract class Pokemon implements Poke {
     // attributes
     protected String species;   // pokémon species
     protected String name;      // pokémon name
-    protected int type1;        // pokémon type 1
-    protected int type2;        // pokémon type 2
+    protected Type type1;        // pokémon type 1
+    protected Type type2;        // pokémon type 2
                                     // 0 = normal
                                     // 1 = grass
                                     // 2 = fire
@@ -38,16 +38,16 @@ public class Pokemon {
     public void setName(String name) {
         this.name = name;
     }
-    protected int getType1() {
+    protected Type getType1() {
         return this.type1;
     }
-    protected void setType1(int t) {
+    protected void setType1(Type t) {
         this.type1 = t;
     }
-    protected int getType2() {
+    protected Type getType2() {
         return this.type2;
     }
-    protected void setType2(int t) {
+    protected void setType2(Type t) {
         this.type2 = t;
     }
     protected int getXp() {
@@ -86,7 +86,7 @@ public class Pokemon {
     public boolean isNpc() {
         return this.npc;
     }  
-    public void setNpc(boolean npc) {
+    protected void setNpc(boolean npc) {
         this.npc = npc;
     }    
     protected void setSpe(int spe) {
@@ -120,7 +120,7 @@ public class Pokemon {
     protected Move chooseMove() {
         Random n = new Random();
         int m  = n.nextInt(3);
-        Move a = new Move();
+        Move a = new Move("",0,0,0);
         switch (m) {
             case 0:
                 a = this.getMove1();                
@@ -133,38 +133,39 @@ public class Pokemon {
         }
         return a;
     }
-    // public methods for showing attributes
-    public void showSpecies() {
+    // interface public methods for showing attributes
+    @Override
+    public void showSp() {
         System.out.println(this.species);
     }
+    @Override
     public void showName() {
         System.out.println(this.getName());
     }
+    @Override
     public void showType1() {
         System.out.println(this.getType1());
     }
+    @Override
     public void showType2() {
         System.out.println(this.getType2());
     }
-    public void showXp() {
-        System.out.println(this.getXp());
-    }    
-    public void showHp() {
+    @Override
+    public void showStatus() {
+        System.out.println("Species: " + this.getSpecies());
+        System.out.print("Type: " + this.getType1().name + "/");
+        System.out.println(this.getType2().name);
+        System.out.println("Name: " + this.getName());
+        System.out.println("XP: " + this.getXp());
+        System.out.print("HP: " + this.getCurhp()+ "/");
         System.out.println(this.getHp());
+        System.out.println("Atk: " + this.getAtk());
+        System.out.println("Def: " + this.getDef());
+        System.out.println("Spe: " + this.getSpe());
     }    
-    public void showCurHp() {
-        System.out.println(this.getCurhp());
-    }    
-    public void showAtk() {
-        System.out.println(this.getAtk());
-    }
-    public void showDef() {
-        System.out.println(this.getDef());
-    }    
-    public void showSpe() {
-        System.out.println(this.getSpe());
-    }    
+    @Override
     public void showMoves() {
+        System.out.println("Moves:");
         System.out.println(this.m1.getName());
         System.out.println(this.m2.getName());
         System.out.println(this.m3.getName());
