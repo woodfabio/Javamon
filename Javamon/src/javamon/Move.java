@@ -1,6 +1,6 @@
 package javamon;
 public class Move {
-    private String name;
+    protected String name;
     private int type;   // 1 = normal
                         // 2 = grass
                         // 3 = fire
