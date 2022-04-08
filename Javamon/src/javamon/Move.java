@@ -10,7 +10,10 @@ public class Move {
                         // 7 = flying
     private int power;
     private int pp;     // power points - each usage spends 1 pp
-    // constructor method
+    // constructor methods
+    public Move() {  
+        this.name = "-";
+    }    
     public Move(String name, int type, int power, int pp) {
         this.name = name;
         this.type = type;

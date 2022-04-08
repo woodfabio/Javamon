@@ -152,10 +152,10 @@ public abstract class Pokemon implements Poke {
     }
     @Override
     public void showStatus() {
+        System.out.println("Name: " + this.getName());
         System.out.println("Species: " + this.getSpecies());
         System.out.print("Type: " + this.getType1().name + "/");
         System.out.println(this.getType2().name);
-        System.out.println("Name: " + this.getName());
         System.out.println("XP: " + this.getXp());
         System.out.print("HP: " + this.getCurhp()+ "/");
         System.out.println(this.getHp());

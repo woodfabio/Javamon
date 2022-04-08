@@ -13,8 +13,8 @@ public class Javamon {
         c1.showP1();
         c1.showP2();
         c1.battle();
-        p1.showStatus();
-        p2.showStatus();
+        //p1.showStatus();
+        //p2.showStatus();
     }
     
 }

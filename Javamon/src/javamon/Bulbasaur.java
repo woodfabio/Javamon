@@ -17,16 +17,16 @@ public class Bulbasaur extends Pokemon {
         this.setDef(49);
         this.setSpe(45);
         // move 1
-        Move move1 = new Move("Tackle",0,40,35);
+        Move move1 = new Move("Tackle",1,40,35);
         this.setMove1(move1);
         // move 2
-        Move move2 = new Move("VineWhip",1,45,25);
+        Move move2 = new Move("VineWhip",2,80,25);
         this.setMove2(move2);
         // move 3
-        Move move3 = new Move("-",0,0,0);
+        Move move3 = new Move();
         this.setMove3(move3);
         // move 4
-        Move move4 = new Move("-",0,0,0);
+        Move move4 = new Move();
         this.setMove4(move4);           
     }
     
