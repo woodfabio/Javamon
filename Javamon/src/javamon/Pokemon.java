@@ -120,7 +120,7 @@ public abstract class Pokemon implements Poke {
     protected Move chooseMove() {
         Random n = new Random();
         int m  = n.nextInt(3);
-        Move a = new Move("",0,0,0);
+        Move a = new Move();
         switch (m) {
             case 0:
                 a = this.getMove1();                
@@ -166,10 +166,26 @@ public abstract class Pokemon implements Poke {
     @Override
     public void showMoves() {
         System.out.println("Moves:");
-        System.out.println(this.m1.getName());
-        System.out.println(this.m2.getName());
-        System.out.println(this.m3.getName());
-        System.out.println(this.m4.getName());
+        if (this.m1.getName().equals("-")) {
+            System.out.println("-");
+        } else {
+            System.out.println(this.m1.getName()+" ("+this.m1.getType().name+") Power: "+this.m1.getPower()+" Pp: "+this.m1.getCurPp()+"/"+this.m1.getPp());
+        }
+        if (this.m2.getName().equals("-")) {
+            System.out.println("-");
+        } else {
+            System.out.println(this.m2.getName()+" ("+this.m2.getType().name+") Power: "+this.m2.getPower()+" Pp: "+this.m2.getCurPp()+"/"+this.m2.getPp());
+        }
+        if (this.m3.getName().equals("-")) {
+            System.out.println("-");
+        } else {
+            System.out.println(this.m3.getName()+" ("+this.m3.getType().name+") Power: "+this.m3.getPower()+" Pp: "+this.m3.getCurPp()+"/"+this.m3.getPp());
+        }
+        if (this.m4.getName().equals("-")) {
+            System.out.println("-");
+        } else {
+            System.out.println(this.m4.getName()+" ("+this.m4.getType().name+") Power: "+this.m4.getPower()+" Pp: "+this.m4.getCurPp()+"/"+this.m4.getPp());
+        }
     }
     // metodos temporarios
     public void setFainted(boolean f) {

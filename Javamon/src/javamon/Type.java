@@ -12,8 +12,24 @@ public class Type {
                                     // 6 = poison
                                     // 7 = flying
     // constructor method
-    public Type(String n, int i) {
-        this.name = n;
-        this.id = i;
+    public Type(int id) {
+        this.id = id;
+        switch (this.id) {
+            case 1:
+                this.name = "Normal";
+                break;
+            case 2:
+                this.name = "Grass";
+                break;
+            case 3:
+                this.name = "Fire";
+                break;
+            case 4:
+                this.name = "Water";
+                break;
+            default:
+                this.name = "-";
+                break;
+        }
     }
 }

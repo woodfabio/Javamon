@@ -14,7 +14,7 @@ public class Challenge {
     // constructor method
     public Challenge(Pokemon poke1, Pokemon poke2) {
         // check if both pokémon aren't fainted
-        if (poke1.getHp() == 0 || poke2.fainted == true) {
+        if (poke1.fainted == true || poke2.fainted == true) {
             System.out.println("Fainted pokémon can't battle!");
             this.approved = false;
         } else {
@@ -56,143 +56,211 @@ public class Challenge {
                 System.out.println(p1.getName() + " Vs. " + p2.getName());
             }
             while (isApproved()) {
-                // choose player move
-                boolean invalidMove = true;
-                int m;
                 Scanner t = new Scanner(System.in);
-                System.out.println("Choose a move number: ");
-                m = t.nextInt();
+                // choose options
+                boolean invalidOption = true;
+                int op;                
                 do {
-                    if (m >= 1 && m <= 4) {
-                       switch (m) {    // player move
-                            case 1:
-                                if (!this.player[0].name.equals("-")) {
-                                   this.playerm = this.player[0];
-                                   invalidMove = false;
-                                }
-                                break;
-                            case 2:
-                                if (!this.player[1].name.equals("-")) {
-                                   this.playerm = this.player[1];
-                                   invalidMove = false;
-                                }
-                                break;
-                            case 3:
-                                if (!this.player[2].name.equals("-")) {
-                                   this.playerm = this.player[3];
-                                   invalidMove = false;
-                                }
-                                break;
-                            case 4:
-                                if (!this.player[3].name.equals("-")) {
-                                   this.playerm = this.player[4];
-                                   invalidMove = false;                               
-                                }
-                                break;                            
-                        } 
-                    }                
-                    if (invalidMove) {
-                        System.out.println("Invalid move selected!");
-                        System.out.println("Choose a valid move number: ");                        
-                        m = t.nextInt();                        
-                    }                    
-                } while (invalidMove);
-                // t.close();                
-                // choose a random move for the NPC
-                boolean check = true;
-                while (check) {
-                    Random n = new Random();
-                    int f = n.nextInt(4); 
-                    switch (f) {
-                        case 0:
-                            if (!this.npc[0].name.equals("-")) {
-                                this.npcm = this.npc[0];
-                                check = false;
-                                break;
-                            }
+                    System.out.println("Menu: ");
+                    System.out.println("[1] - Fight");
+                    System.out.println("[2] - Check status");
+                    System.out.println("[3] - Check moves");
+                    System.out.println("[4] - Run");
+                    System.out.print("Choose an option number: ");
+                    op = t.nextInt();
+                    switch (op) {
                         case 1:
-                            if (!this.npc[1].name.equals("-")) {
-                                this.npcm = this.npc[1];
-                                check = false;
-                                break;
+                            invalidOption = false;
+                            break;
+                        case 2:
+                            if (p1.isNpc()) {
+                                p2.showStatus();
+                            } else {
+                                p1.showStatus();
                             }
-                       case 2:
-                            if (!this.npc[2].name.equals("-")) {
-                                this.npcm = this.npc[2];
-                                check = false;
-                                break;
-                            }
+                            break;
                         case 3:
-                            if (!this.npc[3].name.equals("-")) {
-                                this.npcm = this.npc[3];
-                                check = false;
-                                break;
-                            }                        
+                            if (p1.isNpc()) {
+                                p2.showMoves();
+                            } else {
+                                p1.showMoves();
+                            }
+                            break;
+                        case 4:
+                            System.out.println("You run away safely!");
+                            this.approved = false;
+                            invalidOption = false;
+                            break;
                     }
-                } // while check
-                // the fastest pokémon (p1) makes the first move
-                // check if both speeds are equal
-                // if they are, choose a random pokémon as faster (p1) in the turn
-                if (eqspe) {
-                    Random n = new Random();
-                    boolean fastpoke = n.nextBoolean();
-                    if (fastpoke) {
-                        Pokemon aux = p1;
-                        this.p1 = p2;
-                         this.p2 = aux;  
+                    if (op < 1 || op > 4) {
+                        System.out.println("Invalid option selected!");
                     }
-                }  
-                // p1 makes the move
-                double dmg1;
-                if (p1.isNpc()) {
-                    System.out.println(p1.getName() + " used " + npcm.getName());
-                    dmg1 = Math.round(((npcm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)); //*effect;
-                } else {
-                    System.out.println(p1.getName() + " used " + playerm.getName());
-                    dmg1 = Math.round(((playerm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)); //*effect;
-                }
-                p2.setCurhp(p2.getCurhp() - (int) dmg1);
-                //
-                if (p2.getHp() <= 0) {
-                    this.p2.setFainted(true);
-                    this.p2.setHp(0);
-                }
-                System.out.println(p2.getName() + "'s Hp: " + p2.getCurhp() + "/" + p2.getHp());
+                } while (invalidOption == true);
                 
-                // check if p2 fainted                
-                if (p2.fainted) {
-                    System.out.println(p2.getName() + " fainted!");
-                    this.approved = false;
-                    break;
-                } else {
-                    double dmg2;
-                    if (p2.isNpc()) {
-                        System.out.println(p2.getName() + " used " + npcm.getName());
-                        dmg2 = Math.round(((npcm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)); //*effect;
+                
+                // choose player move
+                if (this.approved) {
+                    boolean invalidMove = true;
+                    int m;
+                    System.out.print("Choose a move number: ");
+                    m = t.nextInt();
+                    do {
+                        if (m >= 1 && m <= 4) {
+                           switch (m) {    // player move
+                                case 1:
+                                    if (!this.player[0].name.equals("-")) {
+                                       this.playerm = this.player[0];
+                                       invalidMove = false;
+                                    }
+                                    break;
+                                case 2:
+                                    if (!this.player[1].name.equals("-")) {
+                                       this.playerm = this.player[1];
+                                       invalidMove = false;
+                                    }
+                                    break;
+                                case 3:
+                                    if (!this.player[2].name.equals("-")) {
+                                       this.playerm = this.player[3];
+                                       invalidMove = false;
+                                    }
+                                    break;
+                                case 4:
+                                    if (!this.player[3].name.equals("-")) {
+                                       this.playerm = this.player[4];
+                                       invalidMove = false;                               
+                                    }
+                                    break;                            
+                            } 
+                        }                
+                        if (invalidMove) {
+                            System.out.println("Invalid move selected!");
+                            System.out.print("Choose a valid move number: ");                        
+                            m = t.nextInt();                        
+                        }                    
+                    } while (invalidMove);
+                    // t.close();                
+                    // choose a random move for the NPC
+                    boolean check = true;
+                    while (check) {
+                        Random n = new Random();
+                        int f = n.nextInt(4); 
+                        switch (f) {
+                            case 0:
+                                if (!this.npc[0].name.equals("-")) {
+                                    this.npcm = this.npc[0];
+                                    check = false;
+                                    break;
+                                }
+                            case 1:
+                                if (!this.npc[1].name.equals("-")) {
+                                    this.npcm = this.npc[1];
+                                    check = false;
+                                    break;
+                                }
+                           case 2:
+                                if (!this.npc[2].name.equals("-")) {
+                                    this.npcm = this.npc[2];
+                                    check = false;
+                                    break;
+                                }
+                            case 3:
+                                if (!this.npc[3].name.equals("-")) {
+                                    this.npcm = this.npc[3];
+                                    check = false;
+                                    break;
+                                }                        
+                        }
+                    } // while check
+                    // the fastest pokémon (p1) makes the first move
+                    // check if both speeds are equal
+                    // if they are, choose a random pokémon as faster (p1) in the turn
+                    if (eqspe) {
+                        Random n = new Random();
+                        boolean fastpoke = n.nextBoolean();
+                        if (fastpoke) {
+                            Pokemon aux = p1;
+                            this.p1 = p2;
+                             this.p2 = aux;  
+                        }
+                    }  
+                    // p1 makes the move
+                    double dmg1;
+                    if (p1.isNpc()) {
+                        System.out.println(p1.getName() + " used " + npcm.getName());
+                        dmg1 = Math.round(((npcm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(npcm.effect(p2.type1.id)));
+                        // show effectiveness
+                        if (npcm.effect(p2.type1.id) >= 2) {
+                            System.out.println("It's super effective!");
+                        } else if (npcm.effect(p2.type1.id) <= 0.5) {
+                            System.out.println("It's not very effective...");
+                        }
                     } else {
-                        System.out.println(p2.getName() + " used " + playerm.getName());
-                        dmg2 = Math.round(((playerm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)); //*effect;
+                        System.out.println(p1.getName() + " used " + playerm.getName());
+                        dmg1 = Math.round(((playerm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(playerm.effect(p2.type1.id)));
+                        // show effectiveness
+                        if (playerm.effect(p2.type1.id) >= 2) {
+                            System.out.println("It's super effective!");
+                        } else if (playerm.effect(p2.type1.id) <= 0.5) {
+                            System.out.println("It's not very effective...");
+                        }
                     }
-                    p1.setCurhp(p1.getCurhp() - (int) dmg2);
+                    p2.setCurhp(p2.getCurhp() - (int) dmg1);
                     //
                     if (p2.getHp() <= 0) {
                         this.p2.setFainted(true);
                         this.p2.setHp(0);
-                    }                    
-                    System.out.println(p1.getName() + "'s Hp: " + p1.getCurhp() + "/" + p1.getHp());
-                }
-                // check if p1 fainted                
-                
-                if (p1.fainted) {
-                    System.out.println(p1.getName() + " fainted!");
-                    this.approved = false;
-                    break;
-                }
-                
-                // System.out.println("TESTE----------------------------");
-                
-                //this.approved = false;
-            } // while approved                
+                    }
+                    System.out.println(p2.getName() + "'s Hp: " + p2.getCurhp() + "/" + p2.getHp());
+
+                    // check if p2 fainted                
+                    if (p2.fainted) {
+                        System.out.println(p2.getName() + " fainted!");
+                        this.approved = false;
+                        break;
+                    } else {
+                        double dmg2;
+                        if (p2.isNpc()) {
+                            System.out.println(p2.getName() + " used " + npcm.getName());
+                            dmg2 = Math.round(((npcm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(npcm.effect(p1.type1.id)));
+                            // show effectiveness
+                            if (npcm.effect(p1.type1.id) >= 2) {
+                                System.out.println("It's super effective!");
+                            } else if (npcm.effect(p1.type1.id) <= 0.5) {
+                                System.out.println("It's not very effective...");
+                            }
+                        } else {
+                            System.out.println(p2.getName() + " used " + playerm.getName());
+                            dmg2 = Math.round(((playerm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(playerm.effect(p1.type1.id)));
+                            // show effectiveness
+                            if (playerm.effect(p1.type1.id) >= 2) {
+                                System.out.println("It's super effective!");
+                            } else if (playerm.effect(p1.type1.id) <= 0.5) {
+                                System.out.println("It's not very effective...");
+                            }
+                        }
+                        // set damage
+                        p1.setCurhp(p1.getCurhp() - (int) dmg2);
+                        //
+                        if (p2.getHp() <= 0) {
+                            this.p2.setFainted(true);
+                            this.p2.setHp(0);
+                        }                    
+                        System.out.println(p1.getName() + "'s Hp: " + p1.getCurhp() + "/" + p1.getHp());
+                    }
+                    // check if p1 fainted                
+
+                    if (p1.fainted) {
+                        System.out.println(p1.getName() + " fainted!");
+                        this.approved = false;
+                        break;
+                    }
+
+                    // System.out.println("TESTE----------------------------");
+
+                    //this.approved = false;
+                } // while approved 2
+            } // while approved 1               
         } // if approved at first
             
                 
