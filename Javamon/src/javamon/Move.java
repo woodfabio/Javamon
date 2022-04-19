@@ -2,15 +2,15 @@ package javamon;
 public class Move {
     protected String name;
     protected Type type;  // 1 = normal
-                        // 2 = grass
-                        // 3 = fire
-                        // 4 = water
-                        // 5 = electric
-                        // 6 = poison
-                         // 7 = flying
-    private int power;
-    private int pp;      // power points - each usage spends 1 pp
-    protected int curPp; // current power points
+                          // 2 = grass
+                          // 3 = fire
+                          // 4 = water
+                          // 5 = electric
+                          // 6 = poison
+                          // 7 = flying
+    private Integer power;
+    private Integer pp;      // power points - each usage spends 1 pp
+    protected Integer curPp; // current power points
     // constructor methods
     public Move() {  
         this.name = "-";
@@ -61,59 +61,158 @@ public class Move {
     }
     
     // effectivenesse method
-    public double effect(int def) {
-        double eff; // effectiveness
-        switch (this.type.id) { // atk type
-            case 2: // grass atk
-                switch (def) {
-                    case 3:  // fire def
-                        eff = 0.5;
+    public double effect(Pokemon def) {
+        double eff = 1; // effectiveness
+        double eff2 = 1;
+        switch (this.type.id) { // move type
+            case 1: // grass move
+                switch (def.type1.id) {
+                    case 1: // grass
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 2: // fire
+                                    eff2 = 2;
+                                    break;
+                                case 3: // water
+                                    eff2 = 0.5;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 0.5/eff2;
                         break;
-                    case 4:  // water def
-                        eff = 2;
+                    case 2:  // fire
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 3: // water
+                                    eff2 = 0.5;
+                                    break;
+                                case 4: // grass
+                                    eff2 = 2;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 0.5/eff2;
                         break;
-                    case 2: // grass def
-                        eff = 0.5;
-                        break;
-                    default:
-                        eff = 1;
+                    case 3:  // water
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 1: // grass
+                                    eff2 = 2;
+                                    break;
+                                case 2: // fire
+                                    eff2 = 2;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 2/eff2;
                         break;
                 }
                 break;
-            case 3: // fire atk
-                switch (def) {
-                    case 2:  // grass def
-                        eff = 2;
+            case 2: // fire move
+                switch (def.type1.id) {
+                    case 1:  // grass
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 2: // fire
+                                    eff2 = 2;
+                                    break;
+                                case 3: // water
+                                    eff2 = 2;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 2/eff2;
                         break;
-                    case 4:  // water def
-                        eff = 0.5;
+                    case 2:  // fire
+                        if (def.type2.id != null) {
+                        switch (def.type2.id) {
+                                case 1: // grass
+                                    eff2 = 0.5;
+                                    break;
+                                case 3: // water
+                                    eff2 = 2;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 0.5/eff2;
                         break;
-                    case 3: // fire def
-                        eff = 0.5;
-                        break;
-                    default:
-                        eff = 1;
+                    case 3: // water
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 1: // grass
+                                    eff2 = 0.5;
+                                    break;
+                                case 2: // fire
+                                    eff2 = 2;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 0.5/eff2;
                         break;
                 }
                 break;
-            case 4: // water attack
-                switch (def) {
-                    case 2:  // grass def
-                        eff = 0.5;
+            case 3: // water move
+                switch (def.type1.id) {
+                    case 1:  // grass
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 2: // fire
+                                    eff2 = 0.5;
+                                    break;
+                                case 3: // water
+                                    eff2 = 2;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 0.5/eff2;
                         break;
-                    case 3:  // fire def
-                        eff = 2;
+                    case 2:  // fire
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 1: // grass
+                                    eff2 = 2;
+                                    break;
+                                case 3: // water
+                                    eff2 = 0.5;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 2/eff2;
                         break;
-                    case 4: // water def
-                        eff = 0.5;
-                        break;
-                    default:
-                        eff = 1;
+                    case 3: // water
+                        if (def.type2.id != null) {
+                            switch (def.type2.id) {
+                                case 1: // grass
+                                    eff2 = 2;
+                                    break;
+                                case 2: // fire
+                                    eff2 = 0.5;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        eff = 0.5/eff2;
                         break;
                 }
                 break;
-            default: // normal atk
-                eff = 1;
+            // case move type == normal, eff remains == 1
         }
         return eff;
     }

@@ -1,8 +1,8 @@
 package javamon;
 public class Javamon {
     public static void main(String[] args) {
-        Bulbasaur p1 = new Bulbasaur("Bulba");
-        Bulbasaur p2 = new Bulbasaur("Challenger");
+        Pokemon p1 = Pokemon.bulbasaur("Bulba");
+        Pokemon p2 = Pokemon.bulbasaur("Challenger");
         p2.setNpc(true);
         p1.showName();
         p1.showSp();        
@@ -14,7 +14,7 @@ public class Javamon {
         c1.showP2();
         c1.battle();
         //p1.showStatus();
-        //p2.showStatus();
+        //p2.showStatus();*/
     }
     
 }

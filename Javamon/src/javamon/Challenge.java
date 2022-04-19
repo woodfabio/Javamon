@@ -50,12 +50,13 @@ public class Challenge {
         if (!this.isApproved()) {
             System.out.println("Fainted pokémon can't battle!");
         } else {
+            String defeated;
             if (p1.isNpc()) {
                 System.out.println(p2.getName() + " Vs. " + p1.getName());
             } else {
                 System.out.println(p1.getName() + " Vs. " + p2.getName());
             }
-            while (isApproved()) {
+            while (this.isApproved()) {
                 Scanner t = new Scanner(System.in);
                 // choose options
                 boolean invalidOption = true;
@@ -99,7 +100,7 @@ public class Challenge {
                 
                 
                 // choose player move
-                if (this.approved) {
+                if (this.isApproved()) {
                     boolean invalidMove = true;
                     int m;
                     System.out.print("Choose a move number: ");
@@ -188,68 +189,61 @@ public class Challenge {
                     double dmg1;
                     if (p1.isNpc()) {
                         System.out.println(p1.getName() + " used " + npcm.getName());
-                        dmg1 = Math.round(((npcm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(npcm.effect(p2.type1.id)));
+                        dmg1 = Math.round(((npcm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(npcm.effect(p2)));
                         // show effectiveness
-                        if (npcm.effect(p2.type1.id) >= 2) {
+                        if (npcm.effect(p2) >= 2) {
                             System.out.println("It's super effective!");
-                        } else if (npcm.effect(p2.type1.id) <= 0.5) {
+                        } else if (npcm.effect(p2) <= 0.5) {
                             System.out.println("It's not very effective...");
                         }
                     } else {
                         System.out.println(p1.getName() + " used " + playerm.getName());
-                        dmg1 = Math.round(((playerm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(playerm.effect(p2.type1.id)));
+                        dmg1 = Math.round(((playerm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(playerm.effect(p2)));
                         // show effectiveness
-                        if (playerm.effect(p2.type1.id) >= 2) {
+                        if (playerm.effect(p2) >= 2) {
                             System.out.println("It's super effective!");
-                        } else if (playerm.effect(p2.type1.id) <= 0.5) {
+                        } else if (playerm.effect(p2) <= 0.5) {
                             System.out.println("It's not very effective...");
                         }
                     }
                     p2.setCurhp(p2.getCurhp() - (int) dmg1);
                     //
-                    if (p2.getHp() <= 0) {
-                        this.p2.setFainted(true);
-                        this.p2.setHp(0);
-                    }
+                    this.p2.setFainted();
                     System.out.println(p2.getName() + "'s Hp: " + p2.getCurhp() + "/" + p2.getHp());
 
                     // check if p2 fainted                
-                    if (p2.fainted) {
-                        System.out.println(p2.getName() + " fainted!");
+                    if (this.p2.fainted) {
+                        System.out.println(this.p2.getName() + " fainted!");
                         this.approved = false;
                         break;
                     } else {
                         double dmg2;
                         if (p2.isNpc()) {
                             System.out.println(p2.getName() + " used " + npcm.getName());
-                            dmg2 = Math.round(((npcm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(npcm.effect(p1.type1.id)));
+                            dmg2 = Math.round(((npcm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(npcm.effect(p1)));
                             // show effectiveness
-                            if (npcm.effect(p1.type1.id) >= 2) {
+                            if (npcm.effect(p1) >= 2) {
                                 System.out.println("It's super effective!");
-                            } else if (npcm.effect(p1.type1.id) <= 0.5) {
+                            } else if (npcm.effect(p1) <= 0.5) {
                                 System.out.println("It's not very effective...");
                             }
                         } else {
                             System.out.println(p2.getName() + " used " + playerm.getName());
-                            dmg2 = Math.round(((playerm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(playerm.effect(p1.type1.id)));
+                            dmg2 = Math.round(((playerm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(playerm.effect(p1)));
                             // show effectiveness
-                            if (playerm.effect(p1.type1.id) >= 2) {
+                            if (playerm.effect(p1) >= 2) {
                                 System.out.println("It's super effective!");
-                            } else if (playerm.effect(p1.type1.id) <= 0.5) {
+                            } else if (playerm.effect(p1) <= 0.5) {
                                 System.out.println("It's not very effective...");
                             }
                         }
                         // set damage
                         p1.setCurhp(p1.getCurhp() - (int) dmg2);
                         //
-                        if (p2.getHp() <= 0) {
-                            this.p2.setFainted(true);
-                            this.p2.setHp(0);
-                        }                    
+                        this.p2.setFainted();
                         System.out.println(p1.getName() + "'s Hp: " + p1.getCurhp() + "/" + p1.getHp());
                     }
-                    // check if p1 fainted                
-
+                    // check if p1 fainted             
                     if (p1.fainted) {
                         System.out.println(p1.getName() + " fainted!");
                         this.approved = false;

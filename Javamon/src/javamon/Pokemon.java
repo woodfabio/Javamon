@@ -1,6 +1,6 @@
 package javamon;
 import java.util.Random;
-public abstract class Pokemon implements Poke {
+public class Pokemon implements Poke {
     // attributes
     protected String species;   // pokémon species
     protected String name;      // pokémon name
@@ -13,13 +13,13 @@ public abstract class Pokemon implements Poke {
                                     // 4 = electric
                                     // 5 = poison
                                     // 6 = flying
-    protected int xp;           // experience
-    protected int hp;           // maximum health points
-    protected int curhp;        // current health points
+    protected Integer xp;           // experience
+    protected Integer hp;           // maximum health points
+    protected Integer curhp;        // current health points
     protected boolean fainted;  // if fainted, it's unable to battle
-    protected int atk;          // attack
-    protected int def;          // defense
-    protected int spe;          // speed
+    protected Integer atk;          // attack
+    protected Integer def;          // defense
+    protected Integer spe;          // speed
     protected boolean npc;      // true if the pokémon is an NPC
     protected Move m1;          // first move
     protected Move m2;          // second move
@@ -50,37 +50,45 @@ public abstract class Pokemon implements Poke {
     protected void setType2(Type t) {
         this.type2 = t;
     }
-    protected int getXp() {
+    protected Integer getXp() {
         return this.xp;
     }
     protected void setXp(int xp) {
         this.xp = xp;
     }
-    protected int getHp() {
+    protected Integer getHp() {
         return this.hp;
     }
     protected void setHp(int hp) {
         this.hp = hp;
     }
-    protected int getCurhp() {
+    protected Integer getCurhp() {
         return this.curhp;
     }
     protected void setCurhp(int curhp) {
         this.curhp = curhp;
+        if (this.curhp <= 0) {
+            this.curhp = 0;
+        }
     }
-    protected int getAtk() {
+    public void setFainted() {
+        if (this.curhp <= 0) {
+            this.fainted = true;
+        }
+    }
+    protected Integer getAtk() {
         return this.atk;
     }
     protected void setAtk(int atk) {
         this.atk = atk;
     }
-    protected int getDef() {
+    protected Integer getDef() {
         return this.def;
     }
     protected void setDef(int def) {
         this.def = def;
     }
-    protected int getSpe() {
+    protected Integer getSpe() {
         return this.spe;
     }
     public boolean isNpc() {
@@ -187,8 +195,39 @@ public abstract class Pokemon implements Poke {
             System.out.println(this.m4.getName()+" ("+this.m4.getType().name+") Power: "+this.m4.getPower()+" Pp: "+this.m4.getCurPp()+"/"+this.m4.getPp());
         }
     }
-    // metodos temporarios
-    public void setFainted(boolean f) {
-        this.fainted = f;
+    // species methods
+    // bulbasaur constructor
+    public static Pokemon bulbasaur(String name) {
+        Pokemon b = new Pokemon();
+        b.setName(name);
+        b.setSpecies("Bulbasaur");
+        // type 1
+        Type t1 = new Type(2);
+        b.setType1(t1);
+        // type 2
+        Type t2 = new Type(0);
+        b.setType2(t2);
+        /*Type type2 = new Type(6);
+        this.setType2(type2); */
+        // status
+        b.setHp(45);
+        b.setCurhp(b.getHp());
+        b.setAtk(65);
+        b.setDef(49);
+        b.setSpe(45);
+        // move 1
+        Move move1 = new Move("Tackle", new Type(0),40,35);
+        b.setMove1(move1);
+        // move 2
+        Move move2 = new Move("VineWhip", new Type(1),80,25);
+        b.setMove2(move2);
+        // move 3
+        Move move3 = new Move();
+        b.setMove3(move3);
+        // move 4
+        Move move4 = new Move();
+        b.setMove4(move4);
+        
+        return b;
     }
 }
