@@ -59,7 +59,7 @@ public class Challenge {
             while (this.isApproved()) {
                 Scanner t = new Scanner(System.in);
                 // choose options
-                boolean invalidOption = true;
+                boolean invalidMenuOp = true;
                 int op;                
                 do {
                     System.out.println("Menu: ");
@@ -71,7 +71,7 @@ public class Challenge {
                     op = t.nextInt();
                     switch (op) {
                         case 1:
-                            invalidOption = false;
+                            invalidMenuOp = false;
                             break;
                         case 2:
                             if (p1.isNpc()) {
@@ -90,164 +90,172 @@ public class Challenge {
                         case 4:
                             System.out.println("You run away safely!");
                             this.approved = false;
-                            invalidOption = false;
+                            invalidMenuOp = false;
                             break;
                     }
                     if (op < 1 || op > 4) {
                         System.out.println("Invalid option selected!");
                     }
-                } while (invalidOption == true);
+                } while (invalidMenuOp == true);
                 
                 
                 // choose player move
                 if (this.isApproved()) {
-                    boolean invalidMove = true;
+                    boolean invalidMoveOp = true;
+                    boolean moveSelected = false;
                     int m;
-                    System.out.print("Choose a move number: ");
-                    m = t.nextInt();
                     do {
-                        if (m >= 1 && m <= 4) {
+                        System.out.print("Choose a move number or 5 to go back to menu: ");
+                        m = t.nextInt();                        
+                        if (m >= 1 && m <= 5) {
                            switch (m) {    // player move
                                 case 1:
                                     if (!this.player[0].name.equals("-")) {
                                        this.playerm = this.player[0];
-                                       invalidMove = false;
+                                       invalidMoveOp = false;
+                                       moveSelected = true;
                                     }
                                     break;
                                 case 2:
                                     if (!this.player[1].name.equals("-")) {
                                        this.playerm = this.player[1];
-                                       invalidMove = false;
+                                       invalidMoveOp = false;
+                                       moveSelected = true;
                                     }
                                     break;
                                 case 3:
                                     if (!this.player[2].name.equals("-")) {
                                        this.playerm = this.player[3];
-                                       invalidMove = false;
+                                       invalidMoveOp = false;
+                                       moveSelected = true;
                                     }
                                     break;
                                 case 4:
                                     if (!this.player[3].name.equals("-")) {
                                        this.playerm = this.player[4];
-                                       invalidMove = false;                               
+                                       invalidMoveOp = false;
+                                       moveSelected = true;
                                     }
-                                    break;                            
+                                    break;
+                                case 5:
+                                    invalidMoveOp = false;
+                                    break;
                             } 
                         }                
-                        if (invalidMove) {
-                            System.out.println("Invalid move selected!");
-                            System.out.print("Choose a valid move number: ");                        
-                            m = t.nextInt();                        
+                        if (invalidMoveOp) {
+                            System.out.println("Invalid option selected!");
                         }                    
-                    } while (invalidMove);
-                    // t.close();                
-                    // choose a random move for the NPC
-                    boolean check = true;
-                    while (check) {
-                        Random n = new Random();
-                        int f = n.nextInt(4); 
-                        switch (f) {
-                            case 0:
-                                if (!this.npc[0].name.equals("-")) {
-                                    this.npcm = this.npc[0];
-                                    check = false;
-                                    break;
-                                }
-                            case 1:
-                                if (!this.npc[1].name.equals("-")) {
-                                    this.npcm = this.npc[1];
-                                    check = false;
-                                    break;
-                                }
-                           case 2:
-                                if (!this.npc[2].name.equals("-")) {
-                                    this.npcm = this.npc[2];
-                                    check = false;
-                                    break;
-                                }
-                            case 3:
-                                if (!this.npc[3].name.equals("-")) {
-                                    this.npcm = this.npc[3];
-                                    check = false;
-                                    break;
-                                }                        
-                        }
-                    } // while check
-                    // the fastest pokémon (p1) makes the first move
-                    // check if both speeds are equal
-                    // if they are, choose a random pokémon as faster (p1) in the turn
-                    if (eqspe) {
-                        Random n = new Random();
-                        boolean fastpoke = n.nextBoolean();
-                        if (fastpoke) {
-                            Pokemon aux = p1;
-                            this.p1 = p2;
-                             this.p2 = aux;  
-                        }
-                    }  
-                    // p1 makes the move
-                    double dmg1;
-                    if (p1.isNpc()) {
-                        System.out.println(p1.getName() + " used " + npcm.getName());
-                        dmg1 = Math.round(((npcm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(npcm.effect(p2)));
-                        // show effectiveness
-                        if (npcm.effect(p2) >= 2) {
-                            System.out.println("It's super effective!");
-                        } else if (npcm.effect(p2) <= 0.5) {
-                            System.out.println("It's not very effective...");
-                        }
-                    } else {
-                        System.out.println(p1.getName() + " used " + playerm.getName());
-                        dmg1 = Math.round(((playerm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(playerm.effect(p2)));
-                        // show effectiveness
-                        if (playerm.effect(p2) >= 2) {
-                            System.out.println("It's super effective!");
-                        } else if (playerm.effect(p2) <= 0.5) {
-                            System.out.println("It's not very effective...");
-                        }
-                    }
-                    p2.setCurhp(p2.getCurhp() - (int) dmg1);
-                    //
-                    this.p2.setFainted();
-                    System.out.println(p2.getName() + "'s Hp: " + p2.getCurhp() + "/" + p2.getHp());
-
-                    // check if p2 fainted                
-                    if (this.p2.fainted) {
-                        System.out.println(this.p2.getName() + " fainted!");
-                        this.approved = false;
-                        break;
-                    } else {
-                        double dmg2;
-                        if (p2.isNpc()) {
-                            System.out.println(p2.getName() + " used " + npcm.getName());
-                            dmg2 = Math.round(((npcm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(npcm.effect(p1)));
+                    } while (invalidMoveOp);
+                    // t.close();   
+                    if (moveSelected) {
+                        // choose a random move for the NPC
+                        boolean check = true;
+                        while (check) {
+                            Random n = new Random();
+                            int f = n.nextInt(4); 
+                            switch (f) {
+                                case 0:
+                                    if (!this.npc[0].name.equals("-")) {
+                                        this.npcm = this.npc[0];
+                                        check = false;
+                                        break;
+                                    }
+                                case 1:
+                                    if (!this.npc[1].name.equals("-")) {
+                                        this.npcm = this.npc[1];
+                                        check = false;
+                                        break;
+                                    }
+                               case 2:
+                                    if (!this.npc[2].name.equals("-")) {
+                                        this.npcm = this.npc[2];
+                                        check = false;
+                                        break;
+                                    }
+                                case 3:
+                                    if (!this.npc[3].name.equals("-")) {
+                                        this.npcm = this.npc[3];
+                                        check = false;
+                                        break;
+                                    }                        
+                            }
+                        } // while check
+                        // the fastest pokémon (p1) makes the first move
+                        // check if both speeds are equal
+                        // if they are, choose a random pokémon as faster (p1) in the turn
+                        if (eqspe) {
+                            Random n = new Random();
+                            boolean fastpoke = n.nextBoolean();
+                            if (fastpoke) {
+                                Pokemon aux = p1;
+                                this.p1 = p2;
+                                 this.p2 = aux;  
+                            }
+                        }  
+                        // p1 makes the move
+                        double dmg1;
+                        if (p1.isNpc()) {
+                            System.out.println(p1.getName() + " used " + npcm.getName());
+                            dmg1 = Math.round(((npcm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(npcm.effect(p2))*p1.stab(npcm));
                             // show effectiveness
-                            if (npcm.effect(p1) >= 2) {
+                            if (npcm.effect(p2) >= 2) {
                                 System.out.println("It's super effective!");
-                            } else if (npcm.effect(p1) <= 0.5) {
+                            } else if (npcm.effect(p2) <= 0.5) {
                                 System.out.println("It's not very effective...");
                             }
                         } else {
-                            System.out.println(p2.getName() + " used " + playerm.getName());
-                            dmg2 = Math.round(((playerm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(playerm.effect(p1)));
+                            System.out.println(p1.getName() + " used " + playerm.getName());
+                            dmg1 = Math.round(((playerm.getPower()*(p1.getAtk()/p2.getDef()))/50+2)*(playerm.effect(p2))*p1.stab(playerm));
                             // show effectiveness
-                            if (playerm.effect(p1) >= 2) {
+                            if (playerm.effect(p2) >= 2) {
                                 System.out.println("It's super effective!");
-                            } else if (playerm.effect(p1) <= 0.5) {
+                            } else if (playerm.effect(p2) <= 0.5) {
                                 System.out.println("It's not very effective...");
                             }
                         }
-                        // set damage
-                        p1.setCurhp(p1.getCurhp() - (int) dmg2);
+                        p2.setCurhp(p2.getCurhp() - (int) dmg1);
                         //
                         this.p2.setFainted();
-                        System.out.println(p1.getName() + "'s Hp: " + p1.getCurhp() + "/" + p1.getHp());
-                    }
-                    // check if p1 fainted             
-                    if (p1.fainted) {
-                        System.out.println(p1.getName() + " fainted!");
-                        this.approved = false;
-                        break;
+                        System.out.println(p2.getName() + "'s Hp: " + p2.getCurhp() + "/" + p2.getHp());
+
+                        // check if p2 fainted                
+                        if (this.p2.fainted) {
+                            System.out.println(this.p2.getName() + " fainted!");
+                            this.approved = false;
+                            break;
+                        } else {
+                            double dmg2;
+                            if (p2.isNpc()) {
+                                System.out.println(p2.getName() + " used " + npcm.getName());
+                                dmg2 = Math.round(((npcm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(npcm.effect(p1))*p2.stab(npcm));
+                                // show effectiveness
+                                if (npcm.effect(p1) >= 2) {
+                                    System.out.println("It's super effective!");
+                                } else if (npcm.effect(p1) <= 0.5) {
+                                    System.out.println("It's not very effective...");
+                                }
+                            } else {
+                                System.out.println(p2.getName() + " used " + playerm.getName());
+                                dmg2 = Math.round(((playerm.getPower()*(p2.getAtk()/p1.getDef()))/50+2)*(playerm.effect(p1))*p2.stab(playerm));
+                                // show effectiveness
+                                if (playerm.effect(p1) >= 2) {
+                                    System.out.println("It's super effective!");
+                                } else if (playerm.effect(p1) <= 0.5) {
+                                    System.out.println("It's not very effective...");
+                                }
+                            }
+                            // set damage
+                            p1.setCurhp(p1.getCurhp() - (int) dmg2);
+                            //
+                            this.p2.setFainted();
+                            System.out.println(p1.getName() + "'s Hp: " + p1.getCurhp() + "/" + p1.getHp());
+                        }
+                        // check if p1 fainted             
+                        if (p1.fainted) {
+                            System.out.println(p1.getName() + " fainted!");
+                            this.approved = false;
+                            break;
+                        }
                     }
 
                     // System.out.println("TESTE----------------------------");

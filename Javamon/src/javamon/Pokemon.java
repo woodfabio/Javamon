@@ -4,27 +4,63 @@ public class Pokemon implements Poke {
     // attributes
     protected String species;   // pokémon species
     protected String name;      // pokémon name
-    protected Type type1;        // pokémon type 1
-    protected Type type2;        // pokémon type 2
-                                    // 0 = normal
-                                    // 1 = grass
-                                    // 2 = fire
-                                    // 3 = water
-                                    // 4 = electric
-                                    // 5 = poison
-                                    // 6 = flying
-    protected Integer xp;           // experience
-    protected Integer hp;           // maximum health points
-    protected Integer curhp;        // current health points
+    protected Type type1;       // pokémon type 1
+    protected Type type2;       // pokémon type 2
+                                   // 0 = normal
+                                   // 1 = grass
+                                   // 2 = fire
+                                   // 3 = water
+                                   // 4 = electric
+                                   // 5 = poison
+                                   // 6 = flying
+    protected Integer xp;       // experience
+    protected Integer hp;       // maximum health points
+    protected Integer curhp;    // current health points
     protected boolean fainted;  // if fainted, it's unable to battle
-    protected Integer atk;          // attack
-    protected Integer def;          // defense
-    protected Integer spe;          // speed
-    protected boolean npc;      // true if the pokémon is an NPC
+    protected Integer atk;      // attack
+    protected Integer def;      // defense
+    protected Integer spe;      // speed
+    private   boolean npc;      // true if the pokémon is an NPC
     protected Move m1;          // first move
     protected Move m2;          // second move
     protected Move m3;          // third move
     protected Move m4;          // fourth move
+    // species constructor methods
+    // bulbasaur constructors
+    public static Pokemon bulbasaur(String name) {
+        Pokemon b = new Pokemon();
+        b.setName(name);
+        b.xp = 0;
+        b.setSpecies("Bulbasaur");
+        // type 1
+        Type t1 = new Type(1);
+        b.setType1(t1);
+        // type 2
+        Type t2 = new Type(4);
+        b.setType2(t2);
+        /*Type type2 = new Type(6);
+        this.setType2(type2); */
+        // status
+        b.setHp(45);
+        b.setCurhp(b.getHp());
+        b.setAtk(65);
+        b.setDef(49);
+        b.setSpe(45);
+        // move 1
+        Move move1 = new Move("Tackle", new Type(0),40,35);
+        b.setMove1(move1);
+        // move 2
+        Move move2 = new Move("VineWhip", new Type(1),45,25);
+        b.setMove2(move2);
+        // move 3
+        Move move3 = new Move();
+        b.setMove3(move3);
+        // move 4
+        Move move4 = new Move();
+        b.setMove4(move4);
+        
+        return b;
+    }
     // getter and setter methods - not all attributes have public setter methods
     protected String getSpecies() {
         return this.species;
@@ -141,6 +177,16 @@ public class Pokemon implements Poke {
         }
         return a;
     }
+    // method for STAB (Same Type Attack Bonus)
+    protected double stab(Move m) {
+        double stab;
+        if (this.type1 == m.type || this.type2 == m.type) {
+            stab = 1.5;
+        } else {
+            stab = 1;
+        }
+        return stab;
+    }
     // interface public methods for showing attributes
     @Override
     public void showSp() {
@@ -194,40 +240,5 @@ public class Pokemon implements Poke {
         } else {
             System.out.println(this.m4.getName()+" ("+this.m4.getType().name+") Power: "+this.m4.getPower()+" Pp: "+this.m4.getCurPp()+"/"+this.m4.getPp());
         }
-    }
-    // species methods
-    // bulbasaur constructor
-    public static Pokemon bulbasaur(String name) {
-        Pokemon b = new Pokemon();
-        b.setName(name);
-        b.setSpecies("Bulbasaur");
-        // type 1
-        Type t1 = new Type(2);
-        b.setType1(t1);
-        // type 2
-        Type t2 = new Type(0);
-        b.setType2(t2);
-        /*Type type2 = new Type(6);
-        this.setType2(type2); */
-        // status
-        b.setHp(45);
-        b.setCurhp(b.getHp());
-        b.setAtk(65);
-        b.setDef(49);
-        b.setSpe(45);
-        // move 1
-        Move move1 = new Move("Tackle", new Type(0),40,35);
-        b.setMove1(move1);
-        // move 2
-        Move move2 = new Move("VineWhip", new Type(1),80,25);
-        b.setMove2(move2);
-        // move 3
-        Move move3 = new Move();
-        b.setMove3(move3);
-        // move 4
-        Move move4 = new Move();
-        b.setMove4(move4);
-        
-        return b;
     }
 }

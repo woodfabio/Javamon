@@ -30,6 +30,9 @@ public class Type {
             case 3:
                 this.name = "Water";
                 break;
+            case 4:
+                this.name = "Poison";
+                break;
             default:
                 this.id = null;
                 this.name = "-";
