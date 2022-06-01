@@ -21,10 +21,8 @@ public class Pokemon implements Poke {
     protected Integer def;      // defense
     protected Integer spe;      // speed
     private   boolean npc;      // true if the pokémon is an NPC
-    protected Move m1;          // first move
-    protected Move m2;          // second move
-    protected Move m3;          // third move
-    protected Move m4;          // fourth move
+    protected Move[] moves;     // pokémon moves
+    
     // species constructor methods
     // bulbasaur constructors
     public static Pokemon bulbasaur(String name) {
@@ -33,31 +31,21 @@ public class Pokemon implements Poke {
         b.xp = 0;
         b.setSpecies("Bulbasaur");
         // type 1
-        Type t1 = new Type(1);
-        b.setType1(t1);
+        b.setType1(new Type(1));
         // type 2
-        Type t2 = new Type(4);
-        b.setType2(t2);
-        /*Type type2 = new Type(6);
-        this.setType2(type2); */
+        b.setType2(new Type(4));
         // status
         b.setHp(45);
         b.setCurhp(b.getHp());
         b.setAtk(65);
         b.setDef(49);
         b.setSpe(45);
-        // move 1
-        Move move1 = new Move("Tackle", new Type(0),40,35);
-        b.setMove1(move1);
-        // move 2
-        Move move2 = new Move("VineWhip", new Type(1),45,25);
-        b.setMove2(move2);
-        // move 3
-        Move move3 = new Move();
-        b.setMove3(move3);
-        // move 4
-        Move move4 = new Move();
-        b.setMove4(move4);
+        // moves
+        b.moves = new Move[4];
+        b.setMove(0, new Move("Tackle", new Type(0),40,35));
+        b.setMove(1, new Move("VineWhip", new Type(1),45,25));
+        b.setMove(2, new Move());
+        b.setMove(3, new Move());
         
         return b;
     }
@@ -136,12 +124,27 @@ public class Pokemon implements Poke {
     protected void setSpe(int spe) {
         this.spe = spe;
     }
-    protected Move getMove1() {
-        return this.m1;
+    
+    
+    //--------------------------------------------------------------------------
+    
+    
+    //protected Move getMove1() {
+    //    return this.m1;
+    //}
+    protected Move getMove(int n) {
+        return this.moves[n];
     }
-    protected void setMove1(Move m) {
-        this.m1 = m;
+    protected void setMove(int n, Move m) {
+        this.moves[n] = m;
     }
+    //protected void setMove1(Move m) {
+    //    this.m1 = m;
+    //}
+
+    //--------------------------------------------------------------------------
+
+    /*
     protected Move getMove2() {
         return this.m2;
     }
@@ -160,20 +163,49 @@ public class Pokemon implements Poke {
     protected void setMove4(Move m) {
         this.m4 = m;
     }
-    // method for choosing a random move, if it's an NPC
-    protected Move chooseMove() {
-        Random n = new Random();
-        int m  = n.nextInt(3);
+    */
+    
+    // method for choosing a random move ---------------------------------------
+    protected Move chooseMove(int n) {
         Move a = new Move();
-        switch (m) {
-            case 0:
-                a = this.getMove1();                
-            case 1:
-                a = this.getMove2();                
-            case 2:
-                a = this.getMove3();                  
-            case 3:
-                a = this.getMove4();                   
+        if (this.isNpc()) {
+            boolean invalidMove = true;
+            while (invalidMove) {
+                Random op = new Random();
+                int m  = op.nextInt(3);
+                switch (m) {
+                    case 0:
+                        if (!this.getMove(0).name.equals("-")) {
+                            a = this.getMove(0);
+                            invalidMove = false;
+                        }
+                        break;
+                    case 1:
+                        if (!this.getMove(1).name.equals("-")) {
+                            a = this.getMove(1);
+                            invalidMove = false;
+                        }
+                        break;
+                    case 2:
+                        if (!this.getMove(2).name.equals("-")) {
+                            a = this.getMove(2);
+                            invalidMove = false;
+                        }
+                        break;
+                    case 3:
+                        if (!this.getMove(3).name.equals("-")) {
+                            a = this.getMove(3);
+                            invalidMove = false;
+                        }
+                        break;
+                }
+            }
+        } else {
+            if (!this.moves[n].name.equals("-")) {
+                a = this.moves[n];
+            } else {
+                a = null;
+            }
         }
         return a;
     }
@@ -220,6 +252,15 @@ public class Pokemon implements Poke {
     @Override
     public void showMoves() {
         System.out.println("Moves:");
+        for (Move m : this.moves) {
+            if (m.getName().equals("-")) {
+                System.out.println("-");
+            } else {
+                System.out.println(m.getName()+" ("+m.getType().name+") Power: "+m.getPower()+" Pp: "+m.getCurPp()+"/"+m.getPp());
+        
+            }
+        }
+        /*
         if (this.m1.getName().equals("-")) {
             System.out.println("-");
         } else {
@@ -239,6 +280,6 @@ public class Pokemon implements Poke {
             System.out.println("-");
         } else {
             System.out.println(this.m4.getName()+" ("+this.m4.getType().name+") Power: "+this.m4.getPower()+" Pp: "+this.m4.getCurPp()+"/"+this.m4.getPp());
-        }
+        }*/
     }
 }
