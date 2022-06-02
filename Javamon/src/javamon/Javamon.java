@@ -9,11 +9,12 @@ public class Javamon {
         p1.showStatus();
         p1.showMoves();
         // p1.setFainted(true);
-        p1.setXp(15);
+        p1.levelUp(10);
         p1.showStatus();
         Challenge c1 = new Challenge(p1,p2);
         c1.battle();
         p1.showStatus();
+        p1.showMoves();
         //p1.showStatus();
         //p2.showStatus();*/
     }

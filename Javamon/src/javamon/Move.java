@@ -1,13 +1,16 @@
 package javamon;
 public class Move {
     protected String name;
-    protected Type type;  // 1 = normal
-                          // 2 = grass
-                          // 3 = fire
-                          // 4 = water
-                          // 5 = electric
-                          // 6 = poison
-                          // 7 = flying
+    protected Type type;  // type number id:
+                                    // null = none
+                                    // 0 = normal
+                                    // 1 = grass
+                                    // 2 = fire
+                                    // 3 = water
+                                    // 4 = electric
+                                    // 5 = poison
+                                    // 6 = flying
+                                    // 7 = Dragon
     private Integer power;
     private Integer pp;      // power points - each usage spends 1 pp
     protected Integer curPp; // current power points
