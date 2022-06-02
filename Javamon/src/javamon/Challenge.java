@@ -88,88 +88,88 @@ public class Challenge {
                         System.out.println("Invalid option selected!");
                     }
                 } while (invalidMenuOp == true);
-                
-                
+                                
                 // choose player move ------------------------------------------
-                if (this.isApproved()) {
-                    boolean invalidMoveOp = true;
-                    boolean moveSelected = false;
-                    int m;
-                    do {
-                        System.out.print("Choose a move number or 5 to go back to menu: ");
-                        m = t.nextInt();                        
-                        if (m >= 1 && m <= 4 && !this.npc[1].moves[m-1].name.equals("-")) {
-                            this.playerm = m-1;
-                            invalidMoveOp = false;
-                            moveSelected = true;
-                        } else if (m == 5 ) {
-                            invalidMoveOp = false;
-                        } else {
-                            System.out.println("Invalid option or move selected!");
-                        }                    
-                    } while (invalidMoveOp);
-                    // ---------------------------------------------------------
-                    if (moveSelected) {
-                        // the faster pokémon (speeds[0]) makes the first move
-                        // check if both speeds are equal
-                        // if they are, choose a random pokémon as faster (speeds[0]) in the turn
-                        if (eqspe) {
-                            Random n = new Random();
-                            boolean fastpoke = n.nextBoolean();
-                            if (fastpoke) {
-                                Pokemon aux = this.speeds[0];
-                                this.speeds[0] = this.speeds[1];
-                                 this.speeds[1] = aux;  
-                            }
-                        }  
-                        // faster pokémon makes the move ----------------------
-                        double dmg1;
-                        Move currMove1 = this.speeds[0].chooseMove(playerm);
-                        System.out.println(speeds[0].getName() + " used " + currMove1.getName());
-                        dmg1 = Math.round(((currMove1.getPower()*(speeds[0].getAtk()/speeds[1].getDef()))/50+2)*(currMove1.effect(speeds[1]))*speeds[0].stab(currMove1));
+                boolean invalidMoveOp = true;
+                boolean moveSelected = false;
+                int m;
+                do {
+                    System.out.print("Choose a move number or 5 to go back to menu: ");
+                    m = t.nextInt();                        
+                    if (m >= 1 && m <= 4 && !this.npc[1].moves[m-1].name.equals("-")) {
+                        this.playerm = m-1;
+                        invalidMoveOp = false;
+                        moveSelected = true;
+                    } else if (m == 5 ) {
+                        invalidMoveOp = false;
+                    } else {
+                        System.out.println("Invalid option or move selected!");
+                    }                    
+                } while (invalidMoveOp);
+                // -------------------------------------------------------------
+                if (moveSelected) {
+                // the faster pokémon (speeds[0]) makes the first move
+                // check if both speeds are equal
+                // if they are, choose a random pokémon as faster (speeds[0]) in the turn
+                    if (eqspe) {
+                        Random n = new Random();
+                        boolean fastpoke = n.nextBoolean();
+                        if (fastpoke) {
+                            Pokemon aux = this.speeds[0];
+                            this.speeds[0] = this.speeds[1];
+                            this.speeds[1] = aux;  
+                        }
+                    }  
+                // faster pokémon makes the move -------------------------------
+                    double dmg1;
+                    Move currMove1 = this.speeds[0].chooseMove(playerm);
+                    System.out.println(speeds[0].getName() + " used " + currMove1.getName());
+                    dmg1 = Math.round(((currMove1.getPower()*(speeds[0].getAtk()/speeds[1].getDef()))/50+2)*(currMove1.effect(speeds[1]))*speeds[0].stab(currMove1));
+                    // show effectiveness
+                    if (currMove1.effect(speeds[1]) >= 2) {
+                        System.out.println("It's super effective!");
+                    } else if (currMove1.effect(speeds[1]) <= 0.5) {
+                        System.out.println("It's not very effective...");
+                    }
+                    // set damage -------------------------------------------
+                    speeds[1].setCurhp(speeds[1].getCurhp() - (int) dmg1);
+                    this.speeds[1].setFainted();
+                    System.out.println(speeds[1].getName() + "'s Hp: " + speeds[1].getCurhp() + "/" + speeds[1].getHp());
+
+                    // slower pokémon makes the move (if not fainted) ------               
+                    if (this.speeds[1].fainted) {
+                        System.out.println(this.speeds[1].getName() + " fainted!");
+                        this.approved = false;
+                        break;
+                    } else {
+                        double dmg2;
+                        Move currMove2 = this.speeds[1].chooseMove(playerm);
+                        System.out.println(speeds[1].getName() + " used " + currMove2.getName());
+                        dmg2 = Math.round(((currMove2.getPower()*(speeds[1].getAtk()/speeds[0].getDef()))/50+2)*(currMove2.effect(speeds[0]))*speeds[1].stab(currMove2));
                         // show effectiveness
-                        if (currMove1.effect(speeds[1]) >= 2) {
+                        if (currMove2.effect(speeds[0]) >= 2) {
                             System.out.println("It's super effective!");
-                        } else if (currMove1.effect(speeds[1]) <= 0.5) {
+                        } else if (currMove2.effect(speeds[0]) <= 0.5) {
                             System.out.println("It's not very effective...");
                         }
-                       // set damage -------------------------------------------
-                        speeds[1].setCurhp(speeds[1].getCurhp() - (int) dmg1);
+                        // set damage
+                        speeds[0].setCurhp(speeds[0].getCurhp() - (int) dmg2);
                         //
-                        this.speeds[1].setFainted();
-                        System.out.println(speeds[1].getName() + "'s Hp: " + speeds[1].getCurhp() + "/" + speeds[1].getHp());
-
-                        // slower pokémon makes the move (if not fainted) ------               
-                        if (this.speeds[1].fainted) {
-                            System.out.println(this.speeds[1].getName() + " fainted!");
-                            this.approved = false;
-                            break;
-                        } else {
-                            double dmg2;
-                            Move currMove2 = this.speeds[1].chooseMove(playerm);
-                            System.out.println(speeds[1].getName() + " used " + currMove2.getName());
-                            dmg2 = Math.round(((currMove2.getPower()*(speeds[1].getAtk()/speeds[0].getDef()))/50+2)*(currMove2.effect(speeds[0]))*speeds[1].stab(currMove2));
-                            // show effectiveness
-                            if (currMove2.effect(speeds[0]) >= 2) {
-                                System.out.println("It's super effective!");
-                            } else if (currMove2.effect(speeds[0]) <= 0.5) {
-                                System.out.println("It's not very effective...");
-                            }
-                            // set damage
-                            speeds[0].setCurhp(speeds[0].getCurhp() - (int) dmg2);
-                            //
-                            this.speeds[0].setFainted();
-                            System.out.println(speeds[0].getName() + "'s Hp: " + speeds[0].getCurhp() + "/" + speeds[0].getHp());
-                        }
-                        // check if faster pokémon fainted ---------------------            
-                        if (speeds[0].fainted) {
-                            System.out.println(speeds[0].getName() + " fainted!");
-                            this.approved = false;
-                            break;
-                        }
-                    } // if a move was selected
-                } // while approved (choose a move)
-            } // while approved (menu options)             
+                        this.speeds[0].setFainted();
+                        System.out.println(speeds[0].getName() + "'s Hp: " + speeds[0].getCurhp() + "/" + speeds[0].getHp());
+                    }
+                    // check if faster pokémon fainted ---------------------            
+                    if (speeds[0].fainted) {
+                        System.out.println(speeds[0].getName() + " fainted!");
+                        this.approved = false;
+                        break;
+                    }
+                } // if a move was selected
+            } // while approved (menu options)
+            // if the player pokémon won, gains 1 XP point ---------------------
+            if (!this.npc[1].fainted) {
+                this.npc[1].setXp(1);
+            }
         } // if approved at first
             
                 
