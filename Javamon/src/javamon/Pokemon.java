@@ -22,7 +22,7 @@ public class Pokemon implements Poke {
     protected Integer atk;       // attack
     protected Integer def;       // defense
     protected Integer spe;       // speed
-    private boolean npc;         // true if the pokémon is an NPC
+    protected boolean npc;         // true if the pokémon is an NPC
     protected Move[] moves;      // pokémon moves
     private Integer ev[];        // levels required for evolution
     private Integer evstats[][]; // status for evolutions
@@ -32,199 +32,190 @@ public class Pokemon implements Poke {
     private Move lvlupmoves[];   // new moves for learn when level up
     
     // species constructor methods
-    // bulbasaur constructor
-    public static Pokemon bulbasaur(String name) {
-        Pokemon b = new Pokemon();
-        b.setName(name);
-        b.level = 1;
-        b.setSpecies("Bulbasaur");
-        // type 1
-        b.setType1(new Type(1));
-        // type 2
-        b.setType2(new Type(5));
-        // status
-        b.setHp(45);
-        b.setCurhp(b.getHp());
-        b.setAtk(65);
-        b.setDef(65);
-        b.setSpe(45);
-        // moves
-        b.moves = new Move[4];
-        b.setMove(0, new Move("Tackle", new Type(0),40,35));
-        b.setMove(1, new Move("VineWhip", new Type(1),45,25));
-        b.setMove(2, new Move());
-        b.setMove(3, new Move());
-        // evolution levels
-        b.ev = new Integer[2];
-        b.ev[0] = 16;
-        b.ev[1] = 32;
-        // evolutions stats
-        b.evstats = new Integer [2][4];
-        Integer n1[] = {60, 62, 63, 60};
-        Integer n2[] = {80, 100, 100, 80};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (i == 0) {
-                    b.evstats[i][j] = n1[j];
-                } else {
-                    b.evstats[i][j] = n2[j];
-                }
-            }            
-        }
-        // evolution names
-        String names [] = {"Ivysaur", "Venusaur"};
-        b.evnames = names;
-        // evolution types
-        b.evtypes = new Type[2][2];
-        Type types [] = {new Type(1), new Type(5)};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                b.evtypes[i][j] = types[j];
-            }            
-        }
-        // levels to learn new moves
-        Integer n3[] = {12, 18, 21, 33, 36};
-        b.lvlup = n3;
-        // Moves to be learned when level up
-        Move moves[] = {new Move("Razor Leaf", new Type(1), 55, 25),
-                        new Move("Seed Bomb", new Type(1), 80, 15),
-                        new Move("Take Down", new Type(0), 90, 10),
-                        new Move("Double Edge", new Type(0), 120, 15),
-                        new Move("Solar Beam", new Type(1), 120, 10)};
-        b.lvlupmoves = moves;
-        
-        return b;
-    }
-    // charmander constructor
-    public static Pokemon charmander(String name) {
-        Pokemon b = new Pokemon();
-        b.setName(name);
-        b.level = 1;
-        b.setSpecies("Charmander");
-        // type 1
-        b.setType1(new Type(2));
-        // type 2
-        b.setType2(new Type());
-        // status
-        b.setHp(39);
-        b.setCurhp(b.getHp());
-        b.setAtk(60);
-        b.setDef(50);
-        b.setSpe(65);
-        // moves
-        b.moves = new Move[4];
-        b.setMove(0, new Move("Scratch", new Type(0),40,35));
-        b.setMove(1, new Move("Ember", new Type(2),40,25));
-        b.setMove(2, new Move());
-        b.setMove(3, new Move());
-        // evolution levels
-        b.ev = new Integer[2];
-        b.ev[0] = 16;
-        b.ev[1] = 36;
-        // evolutions stats
-        b.evstats = new Integer [2][4];
-        Integer n1[] = {58, 64, 65, 80};
-        Integer n2[] = {78, 109, 85, 100};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (i == 0) {
-                    b.evstats[i][j] = n1[j];
-                } else {
-                    b.evstats[i][j] = n2[j];
-                }
-            }            
-        }
-        // evolution names
-        String names [] = {"Charmeleon", "Charizard"};
-        b.evnames = names;
-        // evolution types
-        b.evtypes = new Type[2][2];
-        Type types1 [] = {new Type(2), new Type()};
-        Type types2 [] = {new Type(2), new Type(6)};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (i == 0) {
-                    b.evtypes[i][j] = types1[i];
-                } else {
-                    b.evtypes[i][j] = types2[j];
+    public Pokemon(int n, String name) {
+        // bulbasaur constructor
+        if (n == 1) {
+            this.setName(name);
+            this.level = 1;
+            this.setSpecies("Bulbasaur");
+            // type 1
+            this.setType1(new Type(1));
+            // type 2
+            this.setType2(new Type(5));
+            // status
+            this.setHp(45);
+            this.setCurhp(this.getHp());
+            this.setAtk(65);
+            this.setDef(65);
+            this.setSpe(45);
+            // moves
+            this.moves = new Move[4];
+            this.setMove(0, new Move("Tackle", new Type(0),40,35));
+            this.setMove(1, new Move("VineWhip", new Type(1),45,25));
+            this.setMove(2, new Move());
+            this.setMove(3, new Move());
+            // evolution levels
+            this.ev = new Integer[2];
+            this.ev[0] = 16;
+            this.ev[1] = 32;
+            // evolutions stats
+            this.evstats = new Integer [2][4];
+            Integer n1[] = {60, 62, 63, 60};
+            Integer n2[] = {80, 100, 100, 80};
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (i == 0) {
+                        this.evstats[i][j] = n1[j];
+                    } else {
+                        this.evstats[i][j] = n2[j];
+                    }
+                }            
+            }
+            // evolution names
+            String names [] = {"Ivysaur", "Venusaur"};
+            this.evnames = names;
+            // evolution types
+            this.evtypes = new Type[2][2];
+            Type types [] = {new Type(1), new Type(5)};
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 2; j++) {
+                    this.evtypes[i][j] = types[j];
+                }            
+            }
+            // levels to learn new moves
+            Integer n3[] = {12, 18, 21, 33, 36};
+            this.lvlup = n3;
+            // Moves to be learned when level up
+            Move moves[] = {new Move("Razor Leaf", new Type(1), 55, 25),
+                            new Move("Seed Bomb", new Type(1), 80, 15),
+                            new Move("Take Down", new Type(0), 90, 10),
+                            new Move("Double Edge", new Type(0), 120, 15),
+                            new Move("Solar Beam", new Type(1), 120, 10)};
+            this.lvlupmoves = moves;
+        } else if (n == 2) {
+            // charmander constructor
+            this.setName(name);
+            this.level = 1;
+            this.setSpecies("Charmander");
+            // type 1
+            this.setType1(new Type(2));
+            // type 2
+            this.setType2(new Type());
+            // status
+            this.setHp(39);
+            this.setCurhp(this.getHp());
+            this.setAtk(60);
+            this.setDef(50);
+            this.setSpe(65);
+            // moves
+            this.moves = new Move[4];
+            this.setMove(0, new Move("Scratch", new Type(0),40,35));
+            this.setMove(1, new Move("Ember", new Type(2),40,25));
+            this.setMove(2, new Move());
+            this.setMove(3, new Move());
+            // evolution levels
+            this.ev = new Integer[2];
+            this.ev[0] = 16;
+            this.ev[1] = 36;
+            // evolutions stats
+            this.evstats = new Integer [2][4];
+            Integer n1[] = {58, 64, 65, 80};
+            Integer n2[] = {78, 109, 85, 100};
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (i == 0) {
+                        this.evstats[i][j] = n1[j];
+                    } else {
+                        this.evstats[i][j] = n2[j];
+                    }
+                }            
+            }
+            // evolution names
+            String names [] = {"Charmeleon", "Charizard"};
+            this.evnames = names;
+            // evolution types
+            this.evtypes = new Type[2][2];
+            Type types1 [] = {new Type(2), new Type()};
+            Type types2 [] = {new Type(2), new Type(6)};
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 2; j++) {
+                    if (i == 0) {
+                        this.evtypes[i][j] = types1[i];
+                    } else {
+                        this.evtypes[i][j] = types2[j];
+                    }
                 }
             }
-        }
-        // levels to learn new moves
-        Integer n3[] = {12, 17, 20, 24, 40};
-        b.lvlup = n3;
-        // Moves to be learned when level up
-        Move moves[] = {new Move("Dragon Breath", new Type(7), 60, 20),
-                        new Move("Fire Fang", new Type(2), 65, 15),
-                        new Move("Slash", new Type(0), 70, 20),
-                        new Move("Flamethrower", new Type(2), 90, 15),
-                        new Move("Flare Blitz", new Type(2), 120, 15)};
-        b.lvlupmoves = moves;
-        
-        return b;
-    }
-    // squirtle constructor
-    public static Pokemon squirtle(String name) {
-        Pokemon b = new Pokemon();
-        b.setName(name);
-        b.level = 1;
-        b.setSpecies("Squirtle");
-        // type 1
-        b.setType1(new Type(3));
-        // type 2
-        b.setType2(new Type());
-        // status
-        b.setHp(44);
-        b.setCurhp(b.getHp());
-        b.setAtk(50);
-        b.setDef(65);
-        b.setSpe(43);
-        // moves
-        b.moves = new Move[4];
-        b.setMove(0, new Move("Tackle", new Type(0),40,35));
-        b.setMove(1, new Move("Water Gun", new Type(3),40,25));
-        b.setMove(2, new Move());
-        b.setMove(3, new Move());
-        // evolution levels
-        b.ev = new Integer[2];
-        b.ev[0] = 16;
-        b.ev[1] = 36;
-        // evolutions stats
-        b.evstats = new Integer [2][4];
-        Integer n1[] = {59, 65, 80, 58};
-        Integer n2[] = {79, 135, 120, 78};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (i == 0) {
-                    b.evstats[i][j] = n1[j];
-                } else {
-                    b.evstats[i][j] = n2[j];
-                }
-            }            
-        }
-        // evolution names
-        String names [] = {"Wartortle", "Blastoise"};
-        b.evnames = names;
-        // evolution types
-        b.evtypes = new Type[2][2];
-        Type types [] = {new Type(3), new Type()};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                b.evtypes[i][j] = types[i];
+            // levels to learn new moves
+            Integer n3[] = {12, 17, 20, 24, 40};
+            this.lvlup = n3;
+            // Moves to be learned when level up
+            Move moves[] = {new Move("Dragon Breath", new Type(7), 60, 20),
+                            new Move("Fire Fang", new Type(2), 65, 15),
+                            new Move("Slash", new Type(0), 70, 20),
+                            new Move("Flamethrower", new Type(2), 90, 15),
+                            new Move("Flare Blitz", new Type(2), 120, 15)};
+            this.lvlupmoves = moves;
+        } else if (n == 3) {
+            // squirtle constructor
+            this.setName(name);
+            this.level = 1;
+            this.setSpecies("Squirtle");
+            // type 1
+            this.setType1(new Type(3));
+            // type 2
+            this.setType2(new Type());
+            // status
+            this.setHp(44);
+            this.setCurhp(this.getHp());
+            this.setAtk(50);
+            this.setDef(65);
+            this.setSpe(43);
+            // moves
+            this.moves = new Move[4];
+            this.setMove(0, new Move("Tackle", new Type(0),40,35));
+            this.setMove(1, new Move("Water Gun", new Type(3),40,25));
+            this.setMove(2, new Move());
+            this.setMove(3, new Move());
+            // evolution levels
+            this.ev = new Integer[2];
+            this.ev[0] = 16;
+            this.ev[1] = 36;
+            // evolutions stats
+            this.evstats = new Integer [2][4];
+            Integer n1[] = {59, 65, 80, 58};
+            Integer n2[] = {79, 135, 120, 78};
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (i == 0) {
+                        this.evstats[i][j] = n1[j];
+                    } else {
+                        this.evstats[i][j] = n2[j];
+                    }
+                }            
             }
+            // evolution names
+            String names [] = {"Wartortle", "Blastoise"};
+            this.evnames = names;
+            // evolution types
+            this.evtypes = new Type[2][2];
+            Type types [] = {new Type(3), new Type()};
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 2; j++) {
+                    this.evtypes[i][j] = types[i];
+                }
+            }
+            // levels to learn new moves
+            Integer n3[] = {9, 15, 24, 33, 36};
+            this.lvlup = n3;
+            // Moves to be learned when level up
+            Move moves[] = {new Move("Rapid Spin", new Type(0), 50, 40),
+                            new Move("Water Pulse", new Type(3), 60, 20),
+                            new Move("Aqua Tail", new Type(3), 90, 10),
+                            new Move("Hydro Pump", new Type(3), 110, 5),
+                            new Move("Skull Bash", new Type(0), 130, 10)};
+            this.lvlupmoves = moves;
         }
-        // levels to learn new moves
-        Integer n3[] = {9, 15, 24, 33, 36};
-        b.lvlup = n3;
-        // Moves to be learned when level up
-        Move moves[] = {new Move("Rapid Spin", new Type(0), 50, 40),
-                        new Move("Water Pulse", new Type(3), 60, 20),
-                        new Move("Aqua Tail", new Type(3), 90, 10),
-                        new Move("Hydro Pump", new Type(3), 110, 5),
-                        new Move("Skull Bash", new Type(0), 130, 10)};
-        b.lvlupmoves = moves;
-        
-        return b;
     }
     // getter and setter methods - not all attributes have public setter methods
     protected String getSpecies() {
@@ -256,6 +247,9 @@ public class Pokemon implements Poke {
     }
     protected void levelUp(int lvl) { // equivalent to "setLevel()" ------------
         this.level = this.getLevel() + lvl;
+        if (this.level >= 100) {
+            this.level = 100;
+        }
         this.evolve();
         this.learnMove();
     }

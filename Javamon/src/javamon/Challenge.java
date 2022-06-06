@@ -48,7 +48,7 @@ public class Challenge {
      public void battle() {
         // check if neither pokémon is fainted before the current turn
         if (!this.isApproved()) {
-            System.out.println("Fainted pokémon can't battle!");
+            //System.out.println("Fainted pokémon can't battle!");
         } else {
             String defeated; // 
             // show challengers ------------------------------------------------
@@ -121,9 +121,18 @@ public class Challenge {
                             }
                         }  
                     // faster pokémon makes the move -------------------------------
-                        double dmg1;
+                        double dmg1;    // damage
+                        String sp0name; // word "wild" or "your" before the name
+                        String sp1name; // word "wild" or "your" before the name
+                        if (this.speeds[0].npc) {
+                            sp0name = "Wild ";
+                            sp1name = "Your ";
+                        } else {
+                            sp0name = "Your ";
+                            sp1name = "Wild ";
+                        }
                         Move currMove1 = this.speeds[0].chooseMove(playerm);
-                        System.out.println(speeds[0].getName() + " used " + currMove1.getName());
+                        System.out.println(sp0name + speeds[0].getName() + " used " + currMove1.getName());
                         dmg1 = Math.round(((currMove1.getPower()*(speeds[0].getAtk()/speeds[1].getDef()))/50+2)*(currMove1.effect(speeds[1]))*speeds[0].stab(currMove1));
                         // show effectiveness
                         if (currMove1.effect(speeds[1]) >= 2) {
@@ -134,17 +143,17 @@ public class Challenge {
                         // set damage -------------------------------------------
                         speeds[1].setCurhp(speeds[1].getCurhp() - (int) dmg1);
                         this.speeds[1].setFainted();
-                        System.out.println(speeds[1].getName() + "'s Hp: " + speeds[1].getCurhp() + "/" + speeds[1].getHp());
+                        System.out.println(sp1name + speeds[1].getName() + "'s Hp: " + speeds[1].getCurhp() + "/" + speeds[1].getHp());
 
                         // slower pokémon makes the move (if not fainted) ------               
                         if (this.speeds[1].fainted) {
-                            System.out.println(this.speeds[1].getName() + " fainted!");
+                            System.out.println(sp1name + this.speeds[1].getName() + " fainted!");
                             this.approved = false;
                             break;
                         } else {
-                            double dmg2;
-                            Move currMove2 = this.speeds[1].chooseMove(playerm);
-                            System.out.println(speeds[1].getName() + " used " + currMove2.getName());
+                            double dmg2; // damage
+                            Move currMove2 = this.speeds[1].chooseMove(playerm); // current move
+                            System.out.println(sp1name + speeds[1].getName() + " used " + currMove2.getName());
                             dmg2 = Math.round(((currMove2.getPower()*(speeds[1].getAtk()/speeds[0].getDef()))/50+2)*(currMove2.effect(speeds[0]))*speeds[1].stab(currMove2));
                             // show effectiveness
                             if (currMove2.effect(speeds[0]) >= 2) {
@@ -156,11 +165,11 @@ public class Challenge {
                             speeds[0].setCurhp(speeds[0].getCurhp() - (int) dmg2);
                             //
                             this.speeds[0].setFainted();
-                            System.out.println(speeds[0].getName() + "'s Hp: " + speeds[0].getCurhp() + "/" + speeds[0].getHp());
+                            System.out.println(sp0name + speeds[0].getName() + "'s Hp: " + speeds[0].getCurhp() + "/" + speeds[0].getHp());
                         }
                         // check if faster pokémon fainted ---------------------            
                         if (speeds[0].fainted) {
-                            System.out.println(speeds[0].getName() + " fainted!");
+                            System.out.println(sp0name + speeds[0].getName() + " fainted!");
                             this.approved = false;
                             break;
                         }
