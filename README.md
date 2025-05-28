@@ -1,7 +1,7 @@
 # Javamon
  An extremely simple Pokémon game simulator written in Java language with OOP concepts.
 
-The idea is to play a mini game where you choose one of 3 pokémons (Bulbasaur🍃, Charmander🔥 or Squirtle💧) and battle other pokémon that randomly "appear" to get experience and evolve into stroger pokémon.
+The idea is to play a mini game where you choose one of 3 pokémons (Bulbasaur🍃, Charmander🔥 or Squirtle💧) and battle other pokémon that randomly "appear" to get experience and evolve into stronger pokémon.
 
 Almost everything in this game is made based on OOP concepts. Pokémon species, moves used in battle and even the battles are classes with atributes and methods.
 
